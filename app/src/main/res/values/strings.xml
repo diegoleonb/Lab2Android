@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">DogsRestApiJava</string>
+    <string name="dog_picture">dog picture</string>
+</resources>
