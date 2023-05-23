@@ -11,24 +11,25 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:padding="15dp"
-        android:textSize="25sp"
+        android:textSize="30sp"
         android:layout_height="wrap_content"
         android:text="Hello World!"
+        android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
-        android:textColor="@color/white"
+        android:textColor="#E4E4E4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher"
+        app:srcCompat="@drawable/logo"
         android:contentDescription="@string/dog_picture" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
