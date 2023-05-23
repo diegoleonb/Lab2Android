@@ -16,9 +16,11 @@ import org.adaschool.retrofit.network.RetrofitInstance;
 import org.adaschool.retrofit.network.dto.BreedsImgDto;
 import org.adaschool.retrofit.network.dto.BreedsListDto;
 import org.adaschool.retrofit.network.service.DogApiService;
+import org.adaschool.retrofit.storage.EncryptedStorage;
 import org.adaschool.retrofit.storage.JWTInterceptor;
 import org.adaschool.retrofit.storage.SharedPreferencesStorage;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,12 +39,18 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferencesStorage sharedPreferencesStorage;
 
+    private EncryptedStorage encryptedStorage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        init();
-        DogApiService dogApiService = RetrofitInstance.getRetrofitInstance(new JWTInterceptor(sharedPreferencesStorage)).create(DogApiService.class);
+        try {
+            init();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        DogApiService dogApiService = RetrofitInstance.getRetrofitInstance(new JWTInterceptor(encryptedStorage)).create(DogApiService.class);
 
         Call<BreedsImgDto> img = dogApiService.getImage();
         img.enqueue(new Callback<BreedsImgDto>() {
@@ -85,10 +93,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void init(){
+    private void init() throws NoSuchAlgorithmException {
         textView = findViewById(R.id.textView);
         imageView = findViewById(R.id.imageView);
         sharedPreferencesStorage = new SharedPreferencesStorage(getSharedPreferences(SHARED_PREFERENCES_FILE_NAME,MODE_PRIVATE));
+        encryptedStorage = new EncryptedStorage(getSharedPreferences(SHARED_PREFERENCES_FILE_NAME,MODE_PRIVATE));
     }
     private void loadDogInfo(String image) {
         String dogName = "Pitbull";
